@@ -14,9 +14,10 @@ function setup() {
 
     let prev = createVector(0, 0)
     state.l = 10
-    while (state.dots.length < 30) {
-        const pos = prev.copy().add(createVector(state.l, 0))
-        state.dots.push(getDot(pos))
+    while (state.dots.length < 21) {
+        const l = 15//random(5, 15)
+        const pos = prev.copy().add(createVector(l, 0))
+        state.dots.push(getDot(pos, l))
         prev = pos
     }
 
@@ -34,7 +35,7 @@ function draw() {
 
     for (let i = 0; i < state.dots.length; i++) {
         const dot = state.dots[i]
-        const pos = prevPos.copy().add(createVector(state.l, 0)).rotate(dot.r * (i % 2 == 0 ? 1 : -1)) // 
+        const pos = prevPos.copy().add(createVector(dot.l, 0)).rotate(dot.r) // * (i % 2 == 0 ? 1 : -1)
         dot.pos = pos
         dot.r += 1
 
@@ -61,11 +62,11 @@ function draw() {
     state.max = createVector(0, 0)
 }
 
-function getDot(pos) {
+function getDot(pos, l) {
     return {
         pos,
         r: 0,
-        l: random(5, 15)
+        l
     }
 }
 
@@ -73,9 +74,9 @@ function drawDot(dot) {
     fill(0, 0, 0)
     //noStroke()
     stroke(0)
-    //ellipse(dot.pos.x, dot.pos.y, 3, 3)
+    ellipse(dot.pos.x, dot.pos.y, 3, 3)
 
     const mappedX = map(dot.pos.x, state.min.x, state.max.x, -200, 200)
     const mappedY = map(dot.pos.y, state.min.y, state.max.y, -200, 200)
-    ellipse(mappedX, mappedY, 3, 3)
+    //ellipse(mappedX, mappedY, 3, 3)
 }
